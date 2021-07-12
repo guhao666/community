@@ -28,9 +28,6 @@ public class GithubProvider {
            String tokenString = split[0];
            String[] tokenSplit = tokenString.split("=");
            String accessToken = tokenSplit[1];
-//           System.out.println(output);
-//           return output;
-           System.out.println(accessToken);
            return accessToken;
         }catch (IOException e){
             e.printStackTrace();
@@ -40,7 +37,10 @@ public class GithubProvider {
     public static GithubUser getUser(String accessToken){
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
-                .url("https://api.github.com/user?access_token="+accessToken)
+                //github新版请求方式
+                .url("https://api.github.com/user")
+                .header("Authorization","token "+accessToken)
+                //.url("https://api.github.com/user?access_token=" + accessToken)
                 .build();
         try {
             Response response = client.newCall(request).execute();
